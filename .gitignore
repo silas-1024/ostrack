@@ -1,0 +1,12 @@
+# IDE settings
+.idea/
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local outputs and model assets
+output/
+pretrain/
+pretrained_models/
