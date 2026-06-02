@@ -75,8 +75,8 @@ class BaseTrainer:
                     self.load_checkpoint()
                 if load_previous_ckpt:
                     directory = '{}/{}'.format(self._checkpoint_dir, self.settings.project_path_prv)
-                    # directory = '/data/sot/ostrack_sv/output/checkpoints/train/ostrack/vitb_384_mae_ce_32x4_ep300_pretrain'
-                    # directory = '/data/sot/ostrack_sv/output/checkpoints/train/ostrack/vitb_256_mae_ce_32x4_ep300_pretrain'
+                    # directory = '/data/sot/ostrack/output/checkpoints/train/ostrack/vitb_384_mae_ce_32x4_ep300_pretrain'
+                    # directory = '/data/sot/ostrack/output/checkpoints/train/ostrack/vitb_256_mae_ce_32x4_ep300_pretrain'
                     self.load_state_dict(directory)
                 if distill:
                     directory_teacher = '{}/{}'.format(self._checkpoint_dir, self.settings.project_path_teacher)

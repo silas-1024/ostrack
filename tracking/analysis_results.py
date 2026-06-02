@@ -32,7 +32,7 @@ dataset_name = 'sv248s_test'
 #                             run_ids=None, display_name='OSTrack384'))
 # trackers.extend(trackerlist(name='ostrack', parameter_name='vit_ce_adapter_384', dataset_name=dataset_name,
 #                             run_ids=None, display_name='OSTrack384'))
-trackers.extend(trackerlist(name='ostrack', parameter_name='vit_ce_adapter_256', dataset_name=dataset_name,
+trackers.extend(trackerlist(name='ostrack', parameter_name='vit_ce-adapter_256_sv248_oplora', dataset_name=dataset_name,
                             run_ids=None, display_name='OSTrack256'))
 
 dataset = get_dataset(dataset_name)

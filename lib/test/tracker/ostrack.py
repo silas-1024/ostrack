@@ -20,9 +20,10 @@ class OSTrack(BaseTracker):
     def __init__(self, params, dataset_name):
         super(OSTrack, self).__init__(params)
         network = build_ostrack(params.cfg, training=False)
-        network.load_state_dict(torch.load(self.params.checkpoint, map_location='cpu')['net'], strict=True)
-        # network.load_state_dict(torch.load('/data/sot/ostrack_sv/output/checkpoints/train/ostrack/vitb_256_mae_ce_32x4_ep300_pretrain/OSTrack_ep0300.pth.tar', map_location='cpu')['net'], strict=True)
-        # network.load_state_dict(torch.load('/data/sot/ostrack_sv/output/checkpoints/train/ostrack/vitb_384_mae_ce_32x4_ep300_pretrain/OSTrack_ep0300.pth.tar', map_location='cpu')['net'], strict=True)
+        checkpoint = torch.load(self.params.checkpoint, map_location='cpu')
+        network.load_state_dict(checkpoint['net'], strict=True)
+        # network.load_state_dict(torch.load('/data/sot/ostrack/output/checkpoints/train/ostrack/vitb_256_mae_ce_32x4_ep300_pretrain/OSTrack_ep0300.pth.tar', map_location='cpu')['net'], strict=True)
+        # network.load_state_dict(torch.load('/data/sot/ostrack/output/checkpoints/train/ostrack/vitb_384_mae_ce_32x4_ep300_pretrain/OSTrack_ep0300.pth.tar', map_location='cpu')['net'], strict=True)
         self.cfg = params.cfg
         self.network = network.cuda()
         self.network.eval()

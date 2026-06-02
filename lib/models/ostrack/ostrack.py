@@ -10,6 +10,7 @@ from torch import nn
 from torch.nn.modules.transformer import _get_clones
 
 from lib.models.layers.head import build_box_head
+from lib.models.layers.oplora import inject_oplora_into_backbone
 from lib.models.ostrack.vit import vit_base_patch16_224
 from lib.models.ostrack.vit_ce import vit_large_patch16_224_ce, vit_base_patch16_224_ce
 from lib.models.ostrack.vit_ce_adapter import  vit_base_patch16_224_ce_adapter
@@ -160,5 +161,17 @@ def build_ostrack(cfg, training=True):
         checkpoint = torch.load(cfg.MODEL.PRETRAIN_FILE, map_location="cpu")
         missing_keys, unexpected_keys = model.load_state_dict(checkpoint["net"], strict=False)
         print('Load pretrained model from: ' + cfg.MODEL.PRETRAIN_FILE)
+
+    oplora_cfg = getattr(cfg.TRAIN, "OPLORA", None)
+    if oplora_cfg is not None and getattr(oplora_cfg, "ENABLE", False):
+        n_rep, _ = inject_oplora_into_backbone(
+            model.backbone,
+            enable=True,
+            rank=int(oplora_cfg.RANK),
+            top_k=int(oplora_cfg.TOP_K),
+            alpha=float(oplora_cfg.ALPHA),
+            target_linear_names=getattr(oplora_cfg, "TARGETS", None),
+        )
+        print(f"OPLoRA: replaced {n_rep} Linear layers in backbone (rank={oplora_cfg.RANK}, top_k={oplora_cfg.TOP_K}).")
 
     return model
